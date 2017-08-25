@@ -11,50 +11,30 @@ var ADVERT_OFFER_TITLES = [
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
 ];
-var ADVERT_OFFER_TYPES = ['flat', 'house', 'bungalo'];
+var ADVERT_OFFER_TYPES = {
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
 var ADVERT_OFFER_CHECK = ['12:00', '13:00', '14:00'];
 var ADVERT_OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var offers = [];
-var selections = [];
 
-function getUniqueRandomElement(arr, n) {
+function getUniqueRandomElement(arr) {
   if (arr.length === 1) {
-    return arr[0];
+    return [arr[0], []];
   }
-  var ratio = 1 / arr.length;
-  var lastIndex = arr.length - 1;
-  var randomValue = Math.random();
-  for (var j = 0; j < lastIndex; j++) {
-    if (randomValue <= (j + 1) * ratio) {
-      selections[n] = j;
-      return arr[j];
-    }
-  }
-  selections[n] = lastIndex;
-  return arr[lastIndex];
+  var randomIndex = Math.floor(Math.random() * arr.length);
+  var selectedElement = arr.splice(randomIndex, 1);
+  return [selectedElement, arr];
 }
 
 function getRandomElement(arr) {
-  var ratio = 1 / arr.length;
-  var lastIndex = arr.length - 1;
-  var randomValue = Math.random();
-  for (var j = 0; j < lastIndex; j++) {
-    if (randomValue <= (j + 1) * ratio) {
-      return arr[j];
-    }
-  }
-  return arr[lastIndex];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 function getRandomNumber(maxNumber) {
-  var ratio = 1 / maxNumber;
-  var randomValue = Math.random();
-  for (var j = 0; j < (maxNumber - 1); j++) {
-    if (randomValue <= (j + 1) * ratio) {
-      return j + 1;
-    }
-  }
-  return maxNumber;
+  return Math.ceil(Math.random() * maxNumber);
 }
 
 function getRandomPrice() {
@@ -79,34 +59,42 @@ function getRandomCoord(minNumber, maxNumber) {
 function createFeatures(features) {
   var featuresNumber = getRandomNumber(features.length);
   var featuresList = [];
+  var selectedFeature;
   for (var i = 0; i < featuresNumber; i++) {
-    featuresList[i] = getUniqueRandomElement(features, 2);
-    if (features.length > 1) {
-      features.splice(selections[2], 1);
-    }
+    selectedFeature = getUniqueRandomElement(features);
+    features = selectedFeature[1];
+    featuresList[i] = selectedFeature[0];
   }
   return featuresList;
 }
 
-function createOffers(avatars, titles, types, check, features) {
+function createOffers() {
+  var avatars = ADVERT_AVATAR_NUMBERS;
+  var titles = ADVERT_OFFER_TITLES;
+  var selectedAvatar;
+  var selectedTitle;
   for (var k = 0; k < 8; k++) {
     var locationX = getRandomCoord(300, 900);
     var locationY = getRandomCoord(100, 500);
+    selectedAvatar = getUniqueRandomElement(avatars);
+    avatars = selectedAvatar[1];
+    selectedTitle = getUniqueRandomElement(titles);
+    titles = selectedTitle[1];
     offers[k] = {
       'author': {
-        'avatar': 'img/avatars/user0' + getUniqueRandomElement(avatars, 0) + '.png'
+        'avatar': 'img/avatars/user0' + selectedAvatar[0] + '.png'
       },
 
       'offer': {
-        'title': getUniqueRandomElement(titles, 1),
+        'title': selectedTitle[0],
         'address': locationX.toString() + ', ' + locationY.toString(),
         'price': getRandomPrice(),
-        'type': getRandomElement(types),
+        'type': getRandomElement(Object.keys(ADVERT_OFFER_TYPES)),
         'rooms': getRandomNumber(5),
         'guests': getRandomNumber(30),
-        'checkin': getRandomElement(check),
-        'checkout': getRandomElement(check),
-        'features': createFeatures(features),
+        'checkin': getRandomElement(ADVERT_OFFER_CHECK),
+        'checkout': getRandomElement(ADVERT_OFFER_CHECK),
+        'features': createFeatures(ADVERT_OFFER_FEATURES),
         'description': '',
         'photos': []
       },
@@ -117,16 +105,10 @@ function createOffers(avatars, titles, types, check, features) {
       }
 
     };
-    if (avatars.length > 1) {
-      avatars.splice(selections[0], 1);
-    }
-    if (titles.length > 1) {
-      titles.splice(selections[1], 1);
-    }
   }
 }
 
-createOffers(ADVERT_AVATAR_NUMBERS, ADVERT_OFFER_TITLES, ADVERT_OFFER_TYPES, ADVERT_OFFER_CHECK, ADVERT_OFFER_FEATURES);
+createOffers();
 
 var pinMap = document.querySelector('.tokyo__pin-map');
 
@@ -168,19 +150,7 @@ var renderLodge = function (lodge) {
   lodgeElement.querySelector('.lodge__title').textContent = lodge.offer.title;
   lodgeElement.querySelector('.lodge__address').textContent = lodge.offer.address;
   lodgeElement.querySelector('.lodge__price').textContent = lodge.offer.price.toString() + '&#x20bd;/ночь';
-  switch (lodge.offer.type) {
-    case 'flat':
-      lodgeType = 'Квартира';
-      break;
-    case 'bungalo':
-      lodgeType = 'Бунгало';
-      break;
-    case 'house':
-      lodgeType = 'Дом';
-      break;
-    default:
-      lodgeType = 'Сарай';
-  }
+  lodgeType = ADVERT_OFFER_TYPES[lodge.offer.type];
   lodgeElement.querySelector('.lodge__type').textContent = lodgeType;
   lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + lodge.offer.guests.toString() + ' гостей в ' + lodge.offer.rooms.toString() + ' комнатах';
   lodgeElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + lodge.offer.checkin + ', выезд до ' + lodge.offer.checkout;
@@ -190,10 +160,14 @@ var renderLodge = function (lodge) {
   return lodgeElement;
 };
 
-var offerDialog = document.querySelector('#offer-dialog');
-var dialogPanel = document.querySelector('.dialog__panel');
-offerDialog.replaceChild(renderLodge(offers[0]), dialogPanel);
+var fillDialog = function () {
+  var offerDialog = document.querySelector('#offer-dialog');
+  var dialogPanel = offerDialog.querySelector('.dialog__panel');
+  offerDialog.replaceChild(renderLodge(offers[0]), dialogPanel);
 
-var dialogTitle = document.querySelector('.dialog__title');
-var avatar = dialogTitle.querySelector('img');
-avatar.setAttribute('src', offers[0].author.avatar);
+  var dialogTitle = document.querySelector('.dialog__title');
+  var avatar = dialogTitle.querySelector('img');
+  avatar.setAttribute('src', offers[0].author.avatar);
+};
+
+fillDialog();
