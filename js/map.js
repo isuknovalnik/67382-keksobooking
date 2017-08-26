@@ -68,12 +68,12 @@ function createFeatures(features) {
   return featuresList;
 }
 
-function createOffers() {
+function createOffers(advertsNumber) {
   var avatars = ADVERT_AVATAR_NUMBERS;
   var titles = ADVERT_OFFER_TITLES;
   var selectedAvatar;
   var selectedTitle;
-  for (var k = 0; k < 8; k++) {
+  for (var k = 0; k < advertsNumber; k++) {
     var locationX = getRandomCoord(300, 900);
     var locationY = getRandomCoord(100, 500);
     selectedAvatar = getUniqueRandomElement(avatars);
@@ -108,7 +108,7 @@ function createOffers() {
   }
 }
 
-createOffers();
+createOffers(8);
 
 var pinMap = document.querySelector('.tokyo__pin-map');
 
