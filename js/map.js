@@ -18,6 +18,8 @@ var ADVERT_OFFER_TYPES = {
 };
 var ADVERT_OFFER_CHECK = ['12:00', '13:00', '14:00'];
 var ADVERT_OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var offers = [];
 
 function getUniqueRandomElement(arr) {
@@ -69,8 +71,8 @@ function createFeatures(features) {
 }
 
 function createOffers(advertsNumber) {
-  var avatars = ADVERT_AVATAR_NUMBERS;
-  var titles = ADVERT_OFFER_TITLES;
+  var avatars = ADVERT_AVATAR_NUMBERS.slice();
+  var titles = ADVERT_OFFER_TITLES.slice();
   var selectedAvatar;
   var selectedTitle;
   for (var k = 0; k < advertsNumber; k++) {
@@ -94,7 +96,7 @@ function createOffers(advertsNumber) {
         'guests': getRandomNumber(30),
         'checkin': getRandomElement(ADVERT_OFFER_CHECK),
         'checkout': getRandomElement(ADVERT_OFFER_CHECK),
-        'features': createFeatures(ADVERT_OFFER_FEATURES),
+        'features': createFeatures(ADVERT_OFFER_FEATURES.slice()),
         'description': '',
         'photos': []
       },
@@ -116,7 +118,7 @@ var renderPin = function (advert) {
   var pin = document.createElement('div');
   pin.classList.add('pin');
   pin.setAttribute('style', 'left: ' + (advert.location.x - 20).toString() + 'px; top: ' + (advert.location.y - 40).toString() + 'px');
-  pin.innerHTML = '<img src="' + advert.author.avatar + '" class="rounded" width="40" height="40">';
+  pin.innerHTML = '<img src="' + advert.author.avatar + '" class="rounded" width="40" height="40" tabindex="0">';
   return pin;
 };
 
@@ -160,14 +162,88 @@ var renderLodge = function (lodge) {
   return lodgeElement;
 };
 
-var fillDialog = function () {
-  var offerDialog = document.querySelector('#offer-dialog');
+var offerDialog = document.querySelector('#offer-dialog');
+var dialogClose = offerDialog.querySelector('.dialog__close');
+
+var fillDialog = function (offerNumber) {
   var dialogPanel = offerDialog.querySelector('.dialog__panel');
-  offerDialog.replaceChild(renderLodge(offers[0]), dialogPanel);
+  offerDialog.replaceChild(renderLodge(offers[offerNumber]), dialogPanel);
 
   var dialogTitle = document.querySelector('.dialog__title');
   var avatar = dialogTitle.querySelector('img');
-  avatar.setAttribute('src', offers[0].author.avatar);
+  avatar.setAttribute('src', offers[offerNumber].author.avatar);
 };
 
-fillDialog();
+closePopup();
+
+var pins = document.querySelectorAll('.pin');
+
+pinMap.addEventListener('click', pinMapClickHandler);
+pinMap.addEventListener('keydown', pinMapKeyPressHandler);
+dialogClose.addEventListener('click', dialogCloseClickHandler);
+dialogClose.addEventListener('keydown', dialogCloseKeyPressHandler);
+document.addEventListener('keydown', PopupEscPressHandler);
+
+var currentPin = null;
+
+function dialogCloseClickHandler() {
+  closePopup();
+}
+
+function dialogCloseKeyPressHandler(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+}
+
+function pinMapClickHandler(evt) {
+  selectPin(evt);
+}
+
+function pinMapKeyPressHandler(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    selectPin(evt);
+  }
+}
+
+function selectPin(evt) {
+  var clickedElement = evt.target;
+  if (clickedElement.nodeName === 'IMG') {
+    clickedElement = clickedElement.parentElement;
+  }
+  if (clickedElement.classList.contains('pin__main')) {
+    return;
+  }
+
+  if (currentPin) {
+    currentPin.classList.remove('pin--active');
+  }
+  currentPin = clickedElement;
+  currentPin.classList.add('pin--active');
+  for (var i = 1; i < pins.length; i++) {
+    if (currentPin === pins[i]) {
+      fillDialog(i - 1);
+      break;
+    }
+  }
+  openPopup();
+}
+
+function PopupEscPressHandler(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+}
+
+function openPopup() {
+  offerDialog.classList.remove('hidden');
+  document.addEventListener('keydown', PopupEscPressHandler);
+}
+
+function closePopup() {
+  offerDialog.classList.add('hidden');
+  if (currentPin) {
+    currentPin.classList.remove('pin--active');
+  }
+  document.removeEventListener('keydown', PopupEscPressHandler);
+}
