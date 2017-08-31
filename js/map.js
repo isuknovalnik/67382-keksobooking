@@ -69,8 +69,8 @@ function createFeatures(features) {
 }
 
 function createOffers(advertsNumber) {
-  var avatars = ADVERT_AVATAR_NUMBERS;
-  var titles = ADVERT_OFFER_TITLES;
+  var avatars = ADVERT_AVATAR_NUMBERS.slice();
+  var titles = ADVERT_OFFER_TITLES.slice();
   var selectedAvatar;
   var selectedTitle;
   for (var k = 0; k < advertsNumber; k++) {
@@ -94,7 +94,7 @@ function createOffers(advertsNumber) {
         'guests': getRandomNumber(30),
         'checkin': getRandomElement(ADVERT_OFFER_CHECK),
         'checkout': getRandomElement(ADVERT_OFFER_CHECK),
-        'features': createFeatures(ADVERT_OFFER_FEATURES),
+        'features': createFeatures(ADVERT_OFFER_FEATURES.slice()),
         'description': '',
         'photos': []
       },
