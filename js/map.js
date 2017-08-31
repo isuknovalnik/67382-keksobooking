@@ -164,7 +164,6 @@ var renderLodge = function (lodge) {
 
 var offerDialog = document.querySelector('#offer-dialog');
 var dialogClose = offerDialog.querySelector('.dialog__close');
-var mainPin = offerDialog.innerHTML;
 
 var fillDialog = function (offerNumber) {
   var dialogPanel = offerDialog.querySelector('.dialog__panel');
@@ -174,6 +173,8 @@ var fillDialog = function (offerNumber) {
   var avatar = dialogTitle.querySelector('img');
   avatar.setAttribute('src', offers[offerNumber].author.avatar);
 };
+
+closePopup();
 
 var pins = document.querySelectorAll('.pin');
 
@@ -206,29 +207,26 @@ function pinMapKeyPressHandler(evt) {
 }
 
 function selectPin(evt) {
-  if (currentPin) {
-    currentPin.classList.remove('pin--active');
-  }
-
   var clickedElement = evt.target;
   if (clickedElement.nodeName === 'IMG') {
     clickedElement = clickedElement.parentElement;
   }
+  if (clickedElement.classList.contains('pin__main')) {
+    return;
+  }
+
+  if (currentPin) {
+    currentPin.classList.remove('pin--active');
+  }
   currentPin = clickedElement;
-  openPopup();
-  if (currentPin.classList.contains('pin__main')) {
-    offerDialog.innerHTML = mainPin;
-    dialogClose = offerDialog.querySelector('.dialog__close');
-    dialogClose.addEventListener('click', dialogCloseClickHandler);
-  } else {
-    currentPin.classList.add('pin--active');
-    for (var i = 1; i < pins.length; i++) {
-      if (currentPin === pins[i]) {
-        fillDialog(i - 1);
-        break;
-      }
+  currentPin.classList.add('pin--active');
+  for (var i = 1; i < pins.length; i++) {
+    if (currentPin === pins[i]) {
+      fillDialog(i - 1);
+      break;
     }
   }
+  openPopup();
 }
 
 function PopupEscPressHandler(evt) {
