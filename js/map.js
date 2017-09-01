@@ -206,30 +206,30 @@ function roomNumberChangeHandler() {
     case 0:
       capacity.options[2].removeAttribute('hidden');
       capacity.selectedIndex = 2;
-      capacity.options[3].setAttribute('hidden','true');
-      capacity.options[1].setAttribute('hidden','true');
-      capacity.options[0].setAttribute('hidden','true');
+      capacity.options[3].setAttribute('hidden', 'true');
+      capacity.options[1].setAttribute('hidden', 'true');
+      capacity.options[0].setAttribute('hidden', 'true');
       break;
     case 1:
       capacity.options[2].removeAttribute('hidden');
       capacity.options[1].removeAttribute('hidden');
       capacity.selectedIndex = 1;
-      capacity.options[3].setAttribute('hidden','true');
-      capacity.options[0].setAttribute('hidden','true');
+      capacity.options[3].setAttribute('hidden', 'true');
+      capacity.options[0].setAttribute('hidden', 'true');
       break;
     case 2:
       capacity.options[2].removeAttribute('hidden');
       capacity.options[1].removeAttribute('hidden');
       capacity.options[0].removeAttribute('hidden');
       capacity.selectedIndex = 0;
-      capacity.options[3].setAttribute('hidden','true');
+      capacity.options[3].setAttribute('hidden', 'true');
       break;
     case 3:
       capacity.options[3].removeAttribute('hidden');
       capacity.selectedIndex = 3;
-      capacity.options[2].setAttribute('hidden','true');
-      capacity.options[1].setAttribute('hidden','true');
-      capacity.options[0].setAttribute('hidden','true');
+      capacity.options[2].setAttribute('hidden', 'true');
+      capacity.options[1].setAttribute('hidden', 'true');
+      capacity.options[0].setAttribute('hidden', 'true');
   }
 }
 
