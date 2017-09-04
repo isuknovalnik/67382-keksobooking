@@ -18,6 +18,18 @@ var ADVERT_OFFER_TYPES = {
 };
 var ADVERT_OFFER_CHECK = ['12:00', '13:00', '14:00'];
 var ADVERT_OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var TYPE_COST = {
+  'flat': '1000',
+  'bungalo': '0',
+  'house': '5000',
+  'palace': '10000'
+};
+var ROOMS_CAPACITY = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var offers = [];
@@ -202,52 +214,16 @@ roomNumber.addEventListener('change', roomNumberChangeHandler);
 var currentPin = null;
 
 function roomNumberChangeHandler() {
-  switch (roomNumber.selectedIndex) {
-    case 0:
-      capacity.options[2].removeAttribute('hidden');
-      capacity.selectedIndex = 2;
-      capacity.options[3].setAttribute('hidden', 'true');
-      capacity.options[1].setAttribute('hidden', 'true');
-      capacity.options[0].setAttribute('hidden', 'true');
-      break;
-    case 1:
-      capacity.options[2].removeAttribute('hidden');
-      capacity.options[1].removeAttribute('hidden');
-      capacity.selectedIndex = 1;
-      capacity.options[3].setAttribute('hidden', 'true');
-      capacity.options[0].setAttribute('hidden', 'true');
-      break;
-    case 2:
-      capacity.options[2].removeAttribute('hidden');
-      capacity.options[1].removeAttribute('hidden');
-      capacity.options[0].removeAttribute('hidden');
-      capacity.selectedIndex = 0;
-      capacity.options[3].setAttribute('hidden', 'true');
-      break;
-    case 3:
-      capacity.options[3].removeAttribute('hidden');
-      capacity.selectedIndex = 3;
-      capacity.options[2].setAttribute('hidden', 'true');
-      capacity.options[1].setAttribute('hidden', 'true');
-      capacity.options[0].setAttribute('hidden', 'true');
+  if (capacity.options.length > 0) {
+    [].forEach.call(capacity.options, function (item) {
+      item.selected = (ROOMS_CAPACITY[roomNumber.value][0] === item.value) ? true : false;
+      item.hidden = (ROOMS_CAPACITY[roomNumber.value].indexOf(item.value) >= 0) ? false : true;
+    });
   }
 }
 
 function typeChangeHandler() {
-  var minPrice;
-  switch (type.selectedIndex) {
-    case 0:
-      minPrice = '1000';
-      break;
-    case 1:
-      minPrice = '0';
-      break;
-    case 2:
-      minPrice = '5000';
-      break;
-    case 3:
-      minPrice = '10000';
-  }
+  var minPrice = TYPE_COST[type.value];
   price.setAttribute('min', minPrice);
   price.setAttribute('value', minPrice);
   price.setAttribute('placeholder', minPrice);
