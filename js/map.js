@@ -18,6 +18,18 @@ var ADVERT_OFFER_TYPES = {
 };
 var ADVERT_OFFER_CHECK = ['12:00', '13:00', '14:00'];
 var ADVERT_OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var TYPE_COST = {
+  'flat': '1000',
+  'bungalo': '0',
+  'house': '5000',
+  'palace': '10000'
+};
+var ROOMS_CAPACITY = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var offers = [];
@@ -177,14 +189,53 @@ var fillDialog = function (offerNumber) {
 closePopup();
 
 var pins = document.querySelectorAll('.pin');
+var timein = document.querySelector('#timein');
+var timeout = document.querySelector('#timeout');
+var type = document.querySelector('#type');
+var price = document.querySelector('#price');
+
+typeChangeHandler();
+
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
+roomNumberChangeHandler();
 
 pinMap.addEventListener('click', pinMapClickHandler);
 pinMap.addEventListener('keydown', pinMapKeyPressHandler);
 dialogClose.addEventListener('click', dialogCloseClickHandler);
 dialogClose.addEventListener('keydown', dialogCloseKeyPressHandler);
 document.addEventListener('keydown', PopupEscPressHandler);
+timein.addEventListener('change', timeinChangeHandler);
+timeout.addEventListener('change', timeoutChangeHandler);
+type.addEventListener('change', typeChangeHandler);
+roomNumber.addEventListener('change', roomNumberChangeHandler);
 
 var currentPin = null;
+
+function roomNumberChangeHandler() {
+  if (capacity.options.length > 0) {
+    [].forEach.call(capacity.options, function (item) {
+      item.selected = (ROOMS_CAPACITY[roomNumber.value][0] === item.value) ? true : false;
+      item.hidden = (ROOMS_CAPACITY[roomNumber.value].indexOf(item.value) >= 0) ? false : true;
+    });
+  }
+}
+
+function typeChangeHandler() {
+  var minPrice = TYPE_COST[type.value];
+  price.setAttribute('min', minPrice);
+  price.setAttribute('value', minPrice);
+  price.setAttribute('placeholder', minPrice);
+}
+
+function timeinChangeHandler() {
+  timeout.selectedIndex = timein.selectedIndex;
+}
+
+function timeoutChangeHandler() {
+  timein.selectedIndex = timeout.selectedIndex;
+}
 
 function dialogCloseClickHandler() {
   closePopup();
