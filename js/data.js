@@ -63,7 +63,7 @@
     var selectedTitle;
     for (var k = 0; k < advertsNumber; k++) {
       var locationX = getRandomCoord(300, 900);
-      var locationY = getRandomCoord(100, 500);
+      var locationY = getRandomCoord(180, 580);
       selectedAvatar = window.util.getUniqueRandomElement(avatars);
       avatars = selectedAvatar[1];
       selectedTitle = window.util.getUniqueRandomElement(titles);
