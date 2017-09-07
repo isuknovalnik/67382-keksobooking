@@ -22,6 +22,12 @@
       'house': 'Дом',
       'bungalo': 'Бунгало'
     },
+    PINS_BOUNDS: {
+      'left': 300,
+      'right': 900,
+      'top': 180,
+      'bottom': 580
+    },
     offers: []
   };
 
@@ -62,8 +68,8 @@
     var selectedAvatar;
     var selectedTitle;
     for (var k = 0; k < advertsNumber; k++) {
-      var locationX = getRandomCoord(300, 900);
-      var locationY = getRandomCoord(180, 580);
+      var locationX = getRandomCoord(window.data.PINS_BOUNDS.left, window.data.PINS_BOUNDS.right);
+      var locationY = getRandomCoord(window.data.PINS_BOUNDS.top, window.data.PINS_BOUNDS.bottom);
       selectedAvatar = window.util.getUniqueRandomElement(avatars);
       avatars = selectedAvatar[1];
       selectedTitle = window.util.getUniqueRandomElement(titles);
