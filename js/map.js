@@ -37,7 +37,7 @@
   dialogClose.addEventListener('keydown', dialogCloseKeyPressHandler);
   document.addEventListener('keydown', PopupEscPressHandler);
   pinMain.addEventListener('mousedown', dragMainPin);
-
+  window.addEventListener('resize', resizeHandler);
 
   function dialogCloseClickHandler() {
     closePopup();
@@ -96,6 +96,10 @@
       }
     }
     openPopup();
+  }
+
+  function resizeHandler() {
+    pinMapLeft = Math.round(pinMap.getBoundingClientRect().left);
   }
 
   function pinMove(X, Y, shiftX, shiftY) {
