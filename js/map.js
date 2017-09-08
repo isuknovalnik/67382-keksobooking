@@ -27,6 +27,8 @@
     };
   }
 
+  var pinMapLeft = Math.round(pinMap.getBoundingClientRect().left);
+
   keepNewAddress();
 
   pinMap.addEventListener('click', pinMapClickHandler);
@@ -97,7 +99,7 @@
   }
 
   function pinMove(X, Y, shiftX, shiftY) {
-    var newX = X - shiftX;
+    var newX = X - shiftX - pinMapLeft;
     if (newX < pinMainCoordBounds.left) {
       newX = pinMainCoordBounds.left;
     } else if (newX > pinMainCoordBounds.right) {
@@ -116,7 +118,7 @@
   function keepNewAddress() {
     var pinCoords = getCoords(pinMain);
     var addressCoords = {
-      'left': Math.round(pinCoords.left) - Math.round(pinMap.getBoundingClientRect().left) + 37,
+      'left': Math.round(pinCoords.left) - pinMapLeft + 37,
       'top': Math.round(pinCoords.top) + 94
     };
     addressInput.value = 'x: ' + addressCoords.left.toString() + ', y: ' + addressCoords.top.toString();
