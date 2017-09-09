@@ -11,12 +11,14 @@
   var pinMain = pins[0];
   var currentPin = null;
   var addressInput = document.querySelector('#address');
+  var MAIN_PIN_HEIGHT = 94;
+  var MAIN_PIN_HF_WIDTH = 37;
 
   var pinMainCoordBounds = {
-    'left': window.data.PINS_BOUNDS.left - 37,
-    'right': window.data.PINS_BOUNDS.right - 37,
-    'top': window.data.PINS_BOUNDS.top - 94,
-    'bottom': window.data.PINS_BOUNDS.bottom - 94
+    'left': window.data.PINS_BOUNDS.left - MAIN_PIN_HF_WIDTH,
+    'right': window.data.PINS_BOUNDS.right - MAIN_PIN_HF_WIDTH,
+    'top': window.data.PINS_BOUNDS.top - MAIN_PIN_HEIGHT,
+    'bottom': window.data.PINS_BOUNDS.bottom - MAIN_PIN_HEIGHT
   };
 
   function getCoords(elem) {
@@ -122,8 +124,8 @@
   function keepNewAddress() {
     var pinCoords = getCoords(pinMain);
     var addressCoords = {
-      'left': Math.round(pinCoords.left) - pinMapLeft + 37,
-      'top': Math.round(pinCoords.top) + 94
+      'left': Math.round(pinCoords.left) - pinMapLeft + MAIN_PIN_HF_WIDTH,
+      'top': Math.round(pinCoords.top) + MAIN_PIN_HEIGHT
     };
     addressInput.value = 'x: ' + addressCoords.left.toString() + ', y: ' + addressCoords.top.toString();
   }
