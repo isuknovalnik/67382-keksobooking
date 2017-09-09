@@ -4,7 +4,7 @@
   var renderPin = function (advert) {
     var pin = document.createElement('div');
     pin.classList.add('pin');
-    pin.setAttribute('style', 'left: ' + (advert.location.x - 20).toString() + 'px; top: ' + (advert.location.y - 40).toString() + 'px');
+    pin.setAttribute('style', 'left: ' + (advert.location.x - 28).toString() + 'px; top: ' + (advert.location.y - 75).toString() + 'px');
     pin.innerHTML = '<img src="' + advert.author.avatar + '" class="rounded" width="40" height="40" tabindex="0">';
     return pin;
   };
