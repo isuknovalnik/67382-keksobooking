@@ -93,11 +93,10 @@
     currentPin.classList.add('pin--active');
     for (var i = 1; i < pins.length; i++) {
       if (currentPin === pins[i]) {
-        window.card.fillDialog(i - 1);
+        window.showCard(i - 1, window.data.offers, window.card.offerDialog, window.card.renderLodge, openPopup);
         break;
       }
     }
-    openPopup();
   }
 
   function resizeHandler() {
