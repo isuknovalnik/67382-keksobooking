@@ -29,6 +29,13 @@
   function keyPressHandler() {
     messagePopup.style.display = 'none';
     document.removeEventListener('keydown', keyPressHandler);
+    document.removeEventListener('click', mouseClickHandler);
+  }
+
+  function mouseClickHandler() {
+    messagePopup.style.display = 'none';
+    document.removeEventListener('click', mouseClickHandler);
+    document.removeEventListener('keydown', keyPressHandler);
   }
 
   window.util = {
@@ -45,10 +52,12 @@
     errorHandler: function (message) {
       displayMessage(message, '#ffaa99');
       document.addEventListener('keydown', keyPressHandler);
+      document.addEventListener('click', mouseClickHandler);
     },
     successHandler: function (message) {
       displayMessage(message, '#b5f5a8');
       document.addEventListener('keydown', keyPressHandler);
+      document.addEventListener('click', mouseClickHandler);
     }
   };
 })();
