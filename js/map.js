@@ -1,24 +1,37 @@
 'use strict';
 
 (function () {
-  var pinMap = document.querySelector('.tokyo__pin-map');
-  pinMap.setAttribute('style', 'user-select: none');
-  var dialogClose = window.card.offerDialog.querySelector('.dialog__close');
-  closePopup();
+  window.map = {
+    offers: []
+  };
 
-  window.pin.insertPins(pinMap);
-  var pins = document.querySelectorAll('.pin');
-  var pinMain = pins[0];
-  var currentPin = null;
-  var addressInput = document.querySelector('#address');
+  var PINS_BOUNDS = {
+    'left': 300,
+    'right': 1100,
+    'top': 180,
+    'bottom': 580
+  };
   var MAIN_PIN_HEIGHT = 94;
   var MAIN_PIN_HF_WIDTH = 37;
+  var currentPin = null;
+  var pins;
+
+  var pinMap = document.querySelector('.tokyo__pin-map');
+  pinMap.setAttribute('style', 'user-select: none');
+  var pinMapLeft = Math.round(pinMap.getBoundingClientRect().left);
+  var dialogClose = window.card.offerDialog.querySelector('.dialog__close');
+  var pinMain = pinMap.querySelector('.pin__main');
+  closePopup();
+
+  var addressInput = document.querySelector('#address');
+
+  window.backend.load(offersLoadHandler, window.util.errorHandler);
 
   var pinMainCoordBounds = {
-    'left': window.data.PINS_BOUNDS.left - MAIN_PIN_HF_WIDTH,
-    'right': window.data.PINS_BOUNDS.right - MAIN_PIN_HF_WIDTH,
-    'top': window.data.PINS_BOUNDS.top - MAIN_PIN_HEIGHT,
-    'bottom': window.data.PINS_BOUNDS.bottom - MAIN_PIN_HEIGHT
+    'left': PINS_BOUNDS.left - MAIN_PIN_HF_WIDTH,
+    'right': PINS_BOUNDS.right - MAIN_PIN_HF_WIDTH,
+    'top': PINS_BOUNDS.top - MAIN_PIN_HEIGHT,
+    'bottom': PINS_BOUNDS.bottom - MAIN_PIN_HEIGHT
   };
 
   function getCoords(elem) {
@@ -29,8 +42,6 @@
     };
   }
 
-  var pinMapLeft = Math.round(pinMap.getBoundingClientRect().left);
-
   keepNewAddress();
 
   pinMap.addEventListener('click', pinMapClickHandler);
@@ -40,6 +51,12 @@
   document.addEventListener('keydown', PopupEscPressHandler);
   pinMain.addEventListener('mousedown', dragMainPin);
   window.addEventListener('resize', resizeHandler);
+
+  function offersLoadHandler(data) {
+    window.map.offers = data;
+    window.pin.insertPins(pinMap);
+    pins = document.querySelectorAll('.pin');
+  }
 
   function dialogCloseClickHandler() {
     closePopup();
@@ -93,7 +110,7 @@
     currentPin.classList.add('pin--active');
     for (var i = 1; i < pins.length; i++) {
       if (currentPin === pins[i]) {
-        window.showCard(i - 1, window.data.offers, window.card.offerDialog, window.card.renderLodge, openPopup);
+        window.showCard(i - 1, window.map.offers, window.card.offerDialog, window.card.renderLodge, openPopup);
         break;
       }
     }
