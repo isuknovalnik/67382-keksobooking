@@ -4,25 +4,30 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
-  var messageNode;
+  var messagePopup;
+  createMessagePopup();
 
-  function displayMessage(message, color) {
+  function createMessagePopup() {
     var node = document.createElement('div');
-    node.classList.add('message');
-    node.style = 'z-index: 100; width: 100%; text-align: center; background-color: ' + color + ';';
+    node.classList.add('message-popup');
+    node.style = 'z-index: 100; width: 100%; text-align: center; display: none;';
     node.style.position = 'fixed';
     node.style.left = 0;
     node.style.top = '50%';
     node.style.fontSize = '20px';
     node.style.lineHeight = '48px';
-
-    node.textContent = message;
     document.body.insertAdjacentElement('afterbegin', node);
-    messageNode = document.querySelector('.message');
+    messagePopup = document.querySelector('.message-popup');
+  }
+
+  function displayMessage(message, color) {
+    messagePopup.style.backgroundColor = color;
+    messagePopup.textContent = message;
+    messagePopup.style.display = 'block';
   }
 
   function keyPressHandler() {
-    document.body.removeChild(messageNode);
+    messagePopup.style.display = 'none';
     document.removeEventListener('keydown', keyPressHandler);
   }
 
