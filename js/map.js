@@ -2,7 +2,10 @@
 
 (function () {
   window.map = {
-    offers: []
+    offers: [],
+    dataResetHandler: function () {
+      keepNewAddress();
+    }
   };
 
   var PINS_BOUNDS = {

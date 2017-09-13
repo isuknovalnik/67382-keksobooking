@@ -41,6 +41,7 @@
   function response(data) {
     window.util.successHandler('Объявление ' + data.title + ' успешно обработано');
     form.reset();
+    window.map.dataResetHandler();
   }
 
   function roomNumberChangeHandler(firstField, secondField, valueSet) {
