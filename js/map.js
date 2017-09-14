@@ -2,6 +2,7 @@
 
 (function () {
   window.map = {
+    offers: [],
     visibleOffers: [],
     dataResetHandler: function () {
       keepNewAddress();
@@ -18,8 +19,6 @@
   var MAIN_PIN_HF_WIDTH = 37;
   var VISIBLE_PINS_NUMBER = 3;
   var currentPin = null;
-  var offers = [];
-  var pins;
 
   var pinMap = document.querySelector('.tokyo__pin-map');
   pinMap.setAttribute('style', 'user-select: none');
@@ -58,8 +57,8 @@
   window.addEventListener('resize', resizeHandler);
 
   function offersLoadHandler(data) {
-    offers = data;
-    var tempOffers = offers.slice();
+    window.map.offers = data;
+    var tempOffers = window.map.offers.slice();
     var selectedOffer;
     for (var k = 0; k < VISIBLE_PINS_NUMBER; k++) {
       selectedOffer = window.util.getUniqueRandomElement(tempOffers);
@@ -67,7 +66,6 @@
       window.map.visibleOffers[k] = selectedOffer[0][0];
     }
     window.pin.insertPins(pinMap);
-    pins = document.querySelectorAll('.pin');
   }
 
   function dialogCloseClickHandler() {
@@ -120,8 +118,8 @@
     }
     currentPin = clickedElement;
     currentPin.classList.add('pin--active');
-    for (var i = 1; i < pins.length; i++) {
-      if (currentPin === pins[i]) {
+    for (var i = 1; i < window.pin.pins.length; i++) {
+      if (currentPin === window.pin.pins[i]) {
         window.showCard(i - 1, window.map.visibleOffers, window.card.offerDialog, window.card.renderLodge, openPopup);
         break;
       }

@@ -3,7 +3,9 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 300;
 
+  var lastTimeout;
   var messagePopup;
   createMessagePopup();
 
@@ -66,6 +68,12 @@
       var randomIndex = Math.floor(Math.random() * arr.length);
       var selectedElement = arr.splice(randomIndex, 1);
       return [selectedElement, arr];
+    },
+    debounce: function (fun) {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
     }
   };
 })();
