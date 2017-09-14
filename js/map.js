@@ -2,7 +2,7 @@
 
 (function () {
   window.map = {
-    offers: [],
+    visibleOffers: [],
     dataResetHandler: function () {
       keepNewAddress();
     }
@@ -16,7 +16,9 @@
   };
   var MAIN_PIN_HEIGHT = 94;
   var MAIN_PIN_HF_WIDTH = 37;
+  var VISIBLE_PINS_NUMBER = 3;
   var currentPin = null;
+  var offers = [];
   var pins;
 
   var pinMap = document.querySelector('.tokyo__pin-map');
@@ -56,7 +58,14 @@
   window.addEventListener('resize', resizeHandler);
 
   function offersLoadHandler(data) {
-    window.map.offers = data;
+    offers = data;
+    var tempOffers = offers.slice();
+    var selectedOffer;
+    for (var k = 0; k < VISIBLE_PINS_NUMBER; k++) {
+      selectedOffer = window.util.getUniqueRandomElement(tempOffers);
+      tempOffers = selectedOffer[1];
+      window.map.visibleOffers[k] = selectedOffer[0][0];
+    }
     window.pin.insertPins(pinMap);
     pins = document.querySelectorAll('.pin');
   }
@@ -113,7 +122,7 @@
     currentPin.classList.add('pin--active');
     for (var i = 1; i < pins.length; i++) {
       if (currentPin === pins[i]) {
-        window.showCard(i - 1, window.map.offers, window.card.offerDialog, window.card.renderLodge, openPopup);
+        window.showCard(i - 1, window.map.visibleOffers, window.card.offerDialog, window.card.renderLodge, openPopup);
         break;
       }
     }

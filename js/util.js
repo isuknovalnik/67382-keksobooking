@@ -58,6 +58,14 @@
       displayMessage(message, '#b5f5a8');
       document.addEventListener('keydown', keyPressHandler);
       document.addEventListener('click', mouseClickHandler);
+    },
+    getUniqueRandomElement: function (arr) {
+      if (arr.length === 1) {
+        return [arr[0], []];
+      }
+      var randomIndex = Math.floor(Math.random() * arr.length);
+      var selectedElement = arr.splice(randomIndex, 1);
+      return [selectedElement, arr];
     }
   };
 })();

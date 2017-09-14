@@ -12,8 +12,8 @@
   window.pin = {
     insertPins: function (pinMap) {
       var fragment = document.createDocumentFragment();
-      for (var i = 0; i < window.map.offers.length; i++) {
-        fragment.appendChild(renderPin(window.map.offers[i]));
+      for (var i = 0; i < window.map.visibleOffers.length; i++) {
+        fragment.appendChild(renderPin(window.map.visibleOffers[i]));
       }
       pinMap.appendChild(fragment);
     }
