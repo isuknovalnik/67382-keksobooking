@@ -1,6 +1,16 @@
 'use strict';
 
 (function () {
+  var PINS_BOUNDS = {
+    'left': 300,
+    'right': 1100,
+    'top': 180,
+    'bottom': 580
+  };
+  var MAIN_PIN_HEIGHT = 94;
+  var MAIN_PIN_HF_WIDTH = 37;
+  var VISIBLE_PINS_NUMBER = 3;
+
   window.map = {
     offers: [],
     visibleOffers: [],
@@ -17,15 +27,6 @@
     }
   };
 
-  var PINS_BOUNDS = {
-    'left': 300,
-    'right': 1100,
-    'top': 180,
-    'bottom': 580
-  };
-  var MAIN_PIN_HEIGHT = 94;
-  var MAIN_PIN_HF_WIDTH = 37;
-  var VISIBLE_PINS_NUMBER = 3;
   var currentPin = null;
 
   window.map.pinMap = document.querySelector('.tokyo__pin-map');

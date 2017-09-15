@@ -39,28 +39,47 @@
     featureConditioner: false
   };
 
-  var handleFilters = function (filterField, filterName, handlerFunction, isFeature) {
-    filterField.addEventListener('change', function () {
-      handlerFunction(filterField, filterName, isFeature);
-    });
-  };
+  filters.addEventListener('change', filtersChangeHandler);
 
-  handleFilters(housingType, 'housingType', filtersChangeHandler, false);
-  handleFilters(housingPrice, 'housingPrice', filtersChangeHandler, false);
-  handleFilters(roomNumber, 'roomNumber', filtersChangeHandler, false);
-  handleFilters(guestsNumber, 'guestsNumber', filtersChangeHandler, false);
-  handleFilters(featureWifi, 'featureWifi', filtersChangeHandler, true);
-  handleFilters(featureDishwasher, 'featureDishwasher', filtersChangeHandler, true);
-  handleFilters(featureParking, 'featureParking', filtersChangeHandler, true);
-  handleFilters(featureWasher, 'featureWasher', filtersChangeHandler, true);
-  handleFilters(featureElevator, 'featureElevator', filtersChangeHandler, true);
-  handleFilters(featureConditioner, 'featureConditioner', filtersChangeHandler, true);
-
-  function filtersChangeHandler(filterField, filterName, isFeature) {
-    if (isFeature) {
-      newFilterState[filterName] = filterField.checked;
+  function filtersChangeHandler(evt) {
+    var changedElement = evt.target;
+    var filterName;
+    if (changedElement.nodeName === 'SELECT') {
+      switch (changedElement) {
+        case housingType:
+          filterName = 'housingType';
+          break;
+        case housingPrice:
+          filterName = 'housingPrice';
+          break;
+        case roomNumber:
+          filterName = 'roomNumber';
+          break;
+        case guestsNumber:
+          filterName = 'guestsNumber';
+      }
+      newFilterState[filterName] = changedElement.value;
     } else {
-      newFilterState[filterName] = filterField.value;
+      switch (changedElement) {
+        case featureWifi:
+          filterName = 'featureWifi';
+          break;
+        case featureDishwasher:
+          filterName = 'featureDishwasher';
+          break;
+        case featureParking:
+          filterName = 'featureParking';
+          break;
+        case featureWasher:
+          filterName = 'featureWasher';
+          break;
+        case featureElevator:
+          filterName = 'featureElevator';
+          break;
+        case featureConditioner:
+          filterName = 'featureConditioner';
+      }
+      newFilterState[filterName] = changedElement.checked;
     }
     if (newFilterState[filterName] !== filterState[filterName]) {
       window.util.debounce(updateVisibleOffers);

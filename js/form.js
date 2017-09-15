@@ -34,10 +34,10 @@
 
   function formSubmitHandler(evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(form), response, window.util.errorHandler);
+    window.backend.save(new FormData(form), processResponse, window.util.errorHandler);
   }
 
-  function response(data) {
+  function processResponse(data) {
     window.util.successHandler('Объявление ' + data.title + ' успешно обработано');
     form.reset();
     window.map.dataResetHandler();
