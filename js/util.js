@@ -12,7 +12,10 @@
   function createMessagePopup() {
     var node = document.createElement('div');
     node.classList.add('message-popup');
-    node.style = 'z-index: 100; width: 100%; text-align: center; display: none;';
+    node.style.zIndex = '100';
+    node.style.width = '100%';
+    node.style.textAlign = 'center';
+    node.style.display = 'none';
     node.style.position = 'fixed';
     node.style.left = 0;
     node.style.top = '50%';
