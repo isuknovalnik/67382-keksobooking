@@ -14,8 +14,8 @@
   };
 
   var form = document.querySelector('.notice__form');
-  var timein = document.querySelector('#timein');
-  var timeout = document.querySelector('#timeout');
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
   var type = document.querySelector('#type');
   var price = document.querySelector('#price');
 
@@ -26,8 +26,8 @@
 
   roomNumberChangeHandler(roomNumber, capacity, ROOMS_CAPACITY);
 
-  window.synchronizeFields(timein, timeout, timeChangeHandler);
-  window.synchronizeFields(timeout, timein, timeChangeHandler);
+  window.synchronizeFields(timeIn, timeOut, timeChangeHandler);
+  window.synchronizeFields(timeOut, timeIn, timeChangeHandler);
   window.synchronizeFields(type, price, typeChangeHandler, TYPE_COST);
   window.synchronizeFields(roomNumber, capacity, roomNumberChangeHandler, ROOMS_CAPACITY);
   form.addEventListener('submit', formSubmitHandler);
@@ -41,6 +41,8 @@
     window.util.successHandler('Объявление ' + data.title + ' успешно обработано');
     form.reset();
     window.map.dataResetHandler();
+    typeChangeHandler(type, price, TYPE_COST);
+    roomNumberChangeHandler(roomNumber, capacity, ROOMS_CAPACITY);
   }
 
   function roomNumberChangeHandler(firstField, secondField, valueSet) {

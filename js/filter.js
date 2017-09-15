@@ -87,7 +87,17 @@
   }
 
   function updateVisibleOffers() {
-    if (newFilterState.housingType === 'any' && newFilterState.housingPrice === 'any' && newFilterState.roomNumber === 'any' && newFilterState.guestsNumber === 'any' && !newFilterState.featureWifi && !newFilterState.featureDishwasher && !newFilterState.featureParking && !newFilterState.featureWasher && !newFilterState.featureElevator && !newFilterState.featureConditioner) {
+    if (newFilterState.housingType === 'any' &&
+      newFilterState.housingPrice === 'any' &&
+      newFilterState.roomNumber === 'any' &&
+      newFilterState.guestsNumber === 'any' &&
+      !newFilterState.featureWifi &&
+      !newFilterState.featureDishwasher &&
+      !newFilterState.featureParking &&
+      !newFilterState.featureWasher &&
+      !newFilterState.featureElevator &&
+      !newFilterState.featureConditioner
+    ) {
       window.map.visibleOffers = window.map.offers.slice();
     } else {
       var filteredOffers;
