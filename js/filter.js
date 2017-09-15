@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  // - pinMap временно!!!!!!!!!!!!!!
-  var pinMap = document.querySelector('.tokyo__pin-map');
   var filters = document.querySelector('.tokyo__filters');
   var housingType = filters.querySelector('#housing_type');
   var housingPrice = filters.querySelector('#housing_price');
@@ -165,7 +163,7 @@
 
       window.map.visibleOffers = filteredOffers;
     }
-    window.pin.insertPins(pinMap);
+    window.pin.insertPins(window.map.pinMap);
     for (var prop in filterState) {
       if (filterState.hasOwnProperty(prop)) {
         filterState[prop] = newFilterState[prop];

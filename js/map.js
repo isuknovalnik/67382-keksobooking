@@ -4,6 +4,7 @@
   window.map = {
     offers: [],
     visibleOffers: [],
+    pinMap: {},
     dataResetHandler: function () {
       keepNewAddress();
     }
@@ -20,11 +21,11 @@
   var VISIBLE_PINS_NUMBER = 3;
   var currentPin = null;
 
-  var pinMap = document.querySelector('.tokyo__pin-map');
-  pinMap.setAttribute('style', 'user-select: none');
-  var pinMapLeft = Math.round(pinMap.getBoundingClientRect().left);
+  window.map.pinMap = document.querySelector('.tokyo__pin-map');
+  window.map.pinMap.setAttribute('style', 'user-select: none');
+  var pinMapLeft = Math.round(window.map.pinMap.getBoundingClientRect().left);
   var dialogClose = window.card.offerDialog.querySelector('.dialog__close');
-  var pinMain = pinMap.querySelector('.pin__main');
+  var pinMain = window.map.pinMap.querySelector('.pin__main');
   closePopup();
 
   var addressInput = document.querySelector('#address');
@@ -48,8 +49,8 @@
 
   keepNewAddress();
 
-  pinMap.addEventListener('click', pinMapClickHandler);
-  pinMap.addEventListener('keydown', pinMapKeyPressHandler);
+  window.map.pinMap.addEventListener('click', pinMapClickHandler);
+  window.map.pinMap.addEventListener('keydown', pinMapKeyPressHandler);
   dialogClose.addEventListener('click', dialogCloseClickHandler);
   dialogClose.addEventListener('keydown', dialogCloseKeyPressHandler);
   document.addEventListener('keydown', PopupEscPressHandler);
@@ -65,7 +66,7 @@
       tempOffers = selectedOffer[1];
       window.map.visibleOffers[k] = selectedOffer[0][0];
     }
-    window.pin.insertPins(pinMap);
+    window.pin.insertPins(window.map.pinMap);
   }
 
   function dialogCloseClickHandler() {
@@ -127,7 +128,7 @@
   }
 
   function resizeHandler() {
-    pinMapLeft = Math.round(pinMap.getBoundingClientRect().left);
+    pinMapLeft = Math.round(window.map.pinMap.getBoundingClientRect().left);
   }
 
   function pinMove(X, Y, shiftX, shiftY) {
