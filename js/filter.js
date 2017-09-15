@@ -41,54 +41,30 @@
     featureConditioner: false
   };
 
-  var handleFeatures = function (featureField, featureName, handlerFunction) {
-    featureField.addEventListener('change', function () {
-      handlerFunction(featureField, featureName);
+  var handleFilters = function (filterField, filterName, handlerFunction, isFeature) {
+    filterField.addEventListener('change', function () {
+      handlerFunction(filterField, filterName, isFeature);
     });
   };
 
-  housingType.addEventListener('change', housingTypeChangeHandler);
-  housingPrice.addEventListener('change', housingPriceChangeHandler);
-  roomNumber.addEventListener('change', roomNumberChangeHandler);
-  guestsNumber.addEventListener('change', guestsNumberChangeHandler);
-  handleFeatures(featureWifi, 'featureWifi', featuresChangeHandler);
-  handleFeatures(featureDishwasher, 'featureDishwasher', featuresChangeHandler);
-  handleFeatures(featureParking, 'featureParking', featuresChangeHandler);
-  handleFeatures(featureWasher, 'featureWasher', featuresChangeHandler);
-  handleFeatures(featureElevator, 'featureElevator', featuresChangeHandler);
-  handleFeatures(featureConditioner, 'featureConditioner', featuresChangeHandler);
+  handleFilters(housingType, 'housingType', filtersChangeHandler, false);
+  handleFilters(housingPrice, 'housingPrice', filtersChangeHandler, false);
+  handleFilters(roomNumber, 'roomNumber', filtersChangeHandler, false);
+  handleFilters(guestsNumber, 'guestsNumber', filtersChangeHandler, false);
+  handleFilters(featureWifi, 'featureWifi', filtersChangeHandler, true);
+  handleFilters(featureDishwasher, 'featureDishwasher', filtersChangeHandler, true);
+  handleFilters(featureParking, 'featureParking', filtersChangeHandler, true);
+  handleFilters(featureWasher, 'featureWasher', filtersChangeHandler, true);
+  handleFilters(featureElevator, 'featureElevator', filtersChangeHandler, true);
+  handleFilters(featureConditioner, 'featureConditioner', filtersChangeHandler, true);
 
-  function featuresChangeHandler(featureField, featureName) {
-    newFilterState[featureName] = featureField.checked;
-    if (newFilterState[featureName] !== filterState[featureName]) {
-      window.util.debounce(updateVisibleOffers);
+  function filtersChangeHandler(filterField, filterName, isFeature) {
+    if (isFeature) {
+      newFilterState[filterName] = filterField.checked;
+    } else {
+      newFilterState[filterName] = filterField.value;
     }
-  }
-
-  function housingTypeChangeHandler() {
-    newFilterState.housingType = housingType.value;
-    if (newFilterState.housingType !== filterState.housingType) {
-      window.util.debounce(updateVisibleOffers);
-    }
-  }
-
-  function housingPriceChangeHandler() {
-    newFilterState.housingPrice = housingPrice.value;
-    if (newFilterState.housingPrice !== filterState.housingPrice) {
-      window.util.debounce(updateVisibleOffers);
-    }
-  }
-
-  function roomNumberChangeHandler() {
-    newFilterState.roomNumber = roomNumber.value;
-    if (newFilterState.roomNumber !== filterState.roomNumber) {
-      window.util.debounce(updateVisibleOffers);
-    }
-  }
-
-  function guestsNumberChangeHandler() {
-    newFilterState.guestsNumber = guestsNumber.value;
-    if (newFilterState.guestsNumber !== filterState.guestsNumber) {
+    if (newFilterState[filterName] !== filterState[filterName]) {
       window.util.debounce(updateVisibleOffers);
     }
   }
