@@ -4,8 +4,7 @@
   var TYPE_COST = {
     'flat': '1000',
     'bungalo': '0',
-    'house': '5000',
-    'palace': '10000'
+    'house': '10000'
   };
   var ROOMS_CAPACITY = {
     '1': ['1'],

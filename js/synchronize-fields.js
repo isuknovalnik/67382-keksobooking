@@ -2,7 +2,7 @@
 
 (function () {
   window.synchronizeFields = function (firstField, secondField, synchronizeFunction, valueSet) {
-    firstField.addEventListener('click', function () {
+    firstField.addEventListener('change', function () {
       synchronizeFunction(firstField, secondField, valueSet);
     });
   };

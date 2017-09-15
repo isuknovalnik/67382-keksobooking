@@ -10,12 +10,19 @@
   };
 
   window.pin = {
+    pins: {},
     insertPins: function (pinMap) {
+      if (window.pin.pins !== {}) {
+        for (var j = 1; j < window.pin.pins.length; j++) {
+          pinMap.removeChild(window.pin.pins[j]);
+        }
+      }
       var fragment = document.createDocumentFragment();
-      for (var i = 0; i < window.map.offers.length; i++) {
-        fragment.appendChild(renderPin(window.map.offers[i]));
+      for (var i = 0; i < window.map.visibleOffers.length; i++) {
+        fragment.appendChild(renderPin(window.map.visibleOffers[i]));
       }
       pinMap.appendChild(fragment);
+      window.pin.pins = document.querySelectorAll('.pin');
     }
   };
 

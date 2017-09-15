@@ -3,14 +3,19 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 300;
 
+  var lastTimeout;
   var messagePopup;
   createMessagePopup();
 
   function createMessagePopup() {
     var node = document.createElement('div');
     node.classList.add('message-popup');
-    node.style = 'z-index: 100; width: 100%; text-align: center; display: none;';
+    node.style.zIndex = '100';
+    node.style.width = '100%';
+    node.style.textAlign = 'center';
+    node.style.display = 'none';
     node.style.position = 'fixed';
     node.style.left = 0;
     node.style.top = '50%';
@@ -58,6 +63,20 @@
       displayMessage(message, '#b5f5a8');
       document.addEventListener('keydown', keyPressHandler);
       document.addEventListener('click', mouseClickHandler);
+    },
+    getUniqueRandomElement: function (arr) {
+      if (arr.length === 1) {
+        return [arr[0], []];
+      }
+      var randomIndex = Math.floor(Math.random() * arr.length);
+      var selectedElement = arr.splice(randomIndex, 1);
+      return [selectedElement, arr];
+    },
+    debounce: function (fun) {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
     }
   };
 })();
