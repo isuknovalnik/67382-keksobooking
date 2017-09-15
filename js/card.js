@@ -40,7 +40,7 @@
 
       lodgeElement.querySelector('.lodge__title').textContent = lodge.offer.title;
       lodgeElement.querySelector('.lodge__address').textContent = lodge.offer.address;
-      lodgeElement.querySelector('.lodge__price').textContent = lodge.offer.price.toString() + '&#x20bd;/ночь';
+      lodgeElement.querySelector('.lodge__price').textContent = lodge.offer.price.toString() + '₽/ночь';
       lodgeType = ADVERT_OFFER_TYPES[lodge.offer.type];
       lodgeElement.querySelector('.lodge__type').textContent = lodgeType;
       lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + lodge.offer.guests.toString() + ' гостей в ' + lodge.offer.rooms.toString() + ' комнатах';
