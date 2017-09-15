@@ -163,6 +163,7 @@
 
       window.map.visibleOffers = filteredOffers;
     }
+    window.map.closePopup();
     window.pin.insertPins(window.map.pinMap);
     for (var prop in filterState) {
       if (filterState.hasOwnProperty(prop)) {

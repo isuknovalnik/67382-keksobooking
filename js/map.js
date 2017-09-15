@@ -7,6 +7,13 @@
     pinMap: {},
     dataResetHandler: function () {
       keepNewAddress();
+    },
+    closePopup: function () {
+      window.card.offerDialog.classList.add('hidden');
+      if (window.pin.currentPin) {
+        window.pin.currentPin.classList.remove('pin--active');
+      }
+      document.removeEventListener('keydown', PopupEscPressHandler);
     }
   };
 
@@ -26,7 +33,7 @@
   var pinMapLeft = Math.round(window.map.pinMap.getBoundingClientRect().left);
   var dialogClose = window.card.offerDialog.querySelector('.dialog__close');
   var pinMain = window.map.pinMap.querySelector('.pin__main');
-  closePopup();
+  window.map.closePopup();
 
   var addressInput = document.querySelector('#address');
 
@@ -70,11 +77,11 @@
   }
 
   function dialogCloseClickHandler() {
-    closePopup();
+    window.map.closePopup();
   }
 
   function dialogCloseKeyPressHandler(evt) {
-    window.util.isEnterEvent(evt, closePopup);
+    window.util.isEnterEvent(evt, window.map.closePopup);
   }
 
   function pinMapClickHandler(evt) {
@@ -86,15 +93,7 @@
   }
 
   function PopupEscPressHandler(evt) {
-    window.util.isEscEvent(evt, closePopup);
-  }
-
-  function closePopup() {
-    window.card.offerDialog.classList.add('hidden');
-    if (window.pin.currentPin) {
-      window.pin.currentPin.classList.remove('pin--active');
-    }
-    document.removeEventListener('keydown', PopupEscPressHandler);
+    window.util.isEscEvent(evt, window.map.closePopup);
   }
 
   function openPopup() {
