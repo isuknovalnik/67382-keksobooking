@@ -5,7 +5,13 @@
     var pin = document.createElement('div');
     pin.classList.add('pin');
     pin.setAttribute('style', 'left: ' + (advert.location.x - 28).toString() + 'px; top: ' + (advert.location.y - 75).toString() + 'px');
-    pin.innerHTML = '<img src="' + advert.author.avatar + '" class="rounded" width="40" height="40" tabindex="0">';
+    var pinImg = document.createElement('img');
+    pinImg.setAttribute('src', advert.author.avatar);
+    pinImg.classList.add('rounded');
+    pinImg.setAttribute('width', '40');
+    pinImg.setAttribute('height', '40');
+    pinImg.setAttribute('tabindex', '0');
+    pin.appendChild(pinImg);
     return pin;
   };
 
