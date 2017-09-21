@@ -20,8 +20,8 @@
     },
     closePopup: function () {
       window.card.offerDialog.classList.add('hidden');
-      if (window.pin.currentPin) {
-        window.pin.currentPin.classList.remove('pin--active');
+      if (currentPin) {
+        currentPin.classList.remove('pin--active');
       }
       document.removeEventListener('keydown', PopupEscPressHandler);
     }
