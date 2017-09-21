@@ -6,24 +6,18 @@
   var housingPrice = filters.querySelector('#housing_price');
   var roomNumber = filters.querySelector('#housing_room-number');
   var guestsNumber = filters.querySelector('#housing_guests-number');
-  var featureWifi = filters.querySelector('#wifi');
-  var featureDishwasher = filters.querySelector('#dishwasher');
-  var featureParking = filters.querySelector('#parking');
-  var featureWasher = filters.querySelector('#washer');
-  var featureElevator = filters.querySelector('#elevator');
-  var featureConditioner = filters.querySelector('#conditioner');
 
   var filterState = {
     housingType: 'any',
     housingPrice: 'any',
     roomNumber: 'any',
     guestsNumber: 'any',
-    featureWifi: false,
-    featureDishwasher: false,
-    featureParking: false,
-    featureWasher: false,
-    featureElevator: false,
-    featureConditioner: false
+    wifi: false,
+    dishwasher: false,
+    parking: false,
+    washer: false,
+    elevator: false,
+    conditioner: false
   };
 
   var newFilterState = {
@@ -31,12 +25,12 @@
     housingPrice: 'any',
     roomNumber: 'any',
     guestsNumber: 'any',
-    featureWifi: false,
-    featureDishwasher: false,
-    featureParking: false,
-    featureWasher: false,
-    featureElevator: false,
-    featureConditioner: false
+    wifi: false,
+    dishwasher: false,
+    parking: false,
+    washer: false,
+    elevator: false,
+    conditioner: false
   };
 
   filters.addEventListener('change', filtersChangeHandler);
@@ -60,25 +54,7 @@
       }
       newFilterState[filterName] = changedElement.value;
     } else {
-      switch (changedElement) {
-        case featureWifi:
-          filterName = 'featureWifi';
-          break;
-        case featureDishwasher:
-          filterName = 'featureDishwasher';
-          break;
-        case featureParking:
-          filterName = 'featureParking';
-          break;
-        case featureWasher:
-          filterName = 'featureWasher';
-          break;
-        case featureElevator:
-          filterName = 'featureElevator';
-          break;
-        case featureConditioner:
-          filterName = 'featureConditioner';
-      }
+      filterName = changedElement.value;
       newFilterState[filterName] = changedElement.checked;
     }
     if (newFilterState[filterName] !== filterState[filterName]) {
@@ -91,12 +67,12 @@
       newFilterState.housingPrice === 'any' &&
       newFilterState.roomNumber === 'any' &&
       newFilterState.guestsNumber === 'any' &&
-      !newFilterState.featureWifi &&
-      !newFilterState.featureDishwasher &&
-      !newFilterState.featureParking &&
-      !newFilterState.featureWasher &&
-      !newFilterState.featureElevator &&
-      !newFilterState.featureConditioner
+      !newFilterState.wifi &&
+      !newFilterState.dishwasher &&
+      !newFilterState.parking &&
+      !newFilterState.washer &&
+      !newFilterState.elevator &&
+      !newFilterState.conditioner
     ) {
       window.map.visibleOffers = window.map.offers.slice();
     } else {
@@ -142,7 +118,7 @@
         });
       }
 
-      if (newFilterState.featureWifi) {
+      if (newFilterState.wifi) {
         filteredOffers = filteredOffers.filter(function (it) {
           return it.offer.features.some(function (feature) {
             return feature === 'wifi';
@@ -150,7 +126,7 @@
         });
       }
 
-      if (newFilterState.featureDishwasher) {
+      if (newFilterState.dishwasher) {
         filteredOffers = filteredOffers.filter(function (it) {
           return it.offer.features.some(function (feature) {
             return feature === 'dishwasher';
@@ -158,7 +134,7 @@
         });
       }
 
-      if (newFilterState.featureParking) {
+      if (newFilterState.parking) {
         filteredOffers = filteredOffers.filter(function (it) {
           return it.offer.features.some(function (feature) {
             return feature === 'parking';
@@ -166,7 +142,7 @@
         });
       }
 
-      if (newFilterState.featureWasher) {
+      if (newFilterState.washer) {
         filteredOffers = filteredOffers.filter(function (it) {
           return it.offer.features.some(function (feature) {
             return feature === 'washer';
@@ -174,7 +150,7 @@
         });
       }
 
-      if (newFilterState.featureElevator) {
+      if (newFilterState.elevator) {
         filteredOffers = filteredOffers.filter(function (it) {
           return it.offer.features.some(function (feature) {
             return feature === 'elevator';
@@ -182,7 +158,7 @@
         });
       }
 
-      if (newFilterState.featureConditioner) {
+      if (newFilterState.conditioner) {
         filteredOffers = filteredOffers.filter(function (it) {
           return it.offer.features.some(function (feature) {
             return feature === 'conditioner';
